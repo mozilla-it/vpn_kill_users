@@ -124,6 +124,15 @@ class VPNmgmt(object):
             {
                 username: [str username, str ipv4-client-address]
             }
+            Note that we are using the strict definition of 'connected'
+            as folks in the 'ROUTING_TABLE' (fully established, have a
+            client IP), and not the 'CLIENT_LIST' (half-established,
+            without a client IP).  The reason for this is, there are
+            a lot of script kiddies who will be knocking on your front
+            door, and kicking them off when they're in half-established
+            just ends up causing noise.  You should deal with them via
+            some sort of blocklist instead of this script.  Our focus
+            is removing terminated users who have real connections.
         """
         data = self.status()
         users = {}
@@ -131,7 +140,7 @@ class VPNmgmt(object):
             # version 2 or 3, the first thing is a TITLE header;
             # We don't need multiline here.
             matched_lines = re.findall(
-                r'^CLIENT_LIST[,\t](.+)[,\t](\d+\.\d+\.\d+\.\d+\:\d+)[,\t]',
+                r'^ROUTING_TABLE[,\t].+[,\t](.+)[,\t](\d+\.\d+\.\d+\.\d+\:\d+)[,\t]',
                 data, re.MULTILINE)
             # These DO need multiline, since data is a stream and we're
             # 'abusing' ^ by anchoring to newlines in the middle

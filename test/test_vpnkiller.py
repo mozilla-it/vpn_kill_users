@@ -135,6 +135,22 @@ class TestVPNKill(unittest.TestCase):
         self.assertEqual(len(users), 3,
                          'server version 2 did not find all users')
 
+    def test_12_getuser_kiddie(self):
+        """
+            Verify that we see the correct number of users on status2
+            The users in the default reply are all fakes,
+            so everyone should be kicked.  Notably, we should not find
+            the 4th user, who is not fully connected.
+        """
+        self.server_thread = self.server.run_a_thread(
+            target=self.server.server_status, args=('kiddie',))
+        self.library.vpn_connect()
+        users = self.library.get_users_to_disconnect()
+        self.assertIsInstance(users, dict,
+                              'server version 2 did not return a user dict')
+        self.assertEqual(len(users), 3,
+                         'server version 2 did not find all users')
+
     def test_13_getuser_3(self):
         """
             Verify that we see the correct number of users on status3

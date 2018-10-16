@@ -74,7 +74,23 @@ class FakeServer(object):
         GLOBAL_STATS	Max bcast/mcast queue length	0
         END
         ''')
-    status = {1: status_1, 2: status_2, 3: status_3, }
+    status_kiddie = textwrap.dedent('''\
+        TITLE,OpenVPN 2.4.6 x86_64-redhat-linux-gnu [Fedora EPEL patched] [SSL (OpenSSL)] [LZO] [LZ4] [EPOLL] [PKCS11] [MH/PKTINFO] [AEAD] built on Apr 26 2018
+        TIME,Tue Oct 16 17:44:29 2018,1539711869
+        HEADER,CLIENT_LIST,Common Name,Real Address,Virtual Address,Virtual IPv6 Address,Bytes Received,Bytes Sent,Connected Since,Connected Since (time_t),Username,Client ID,Peer ID
+        CLIENT_LIST,person1@company.org,1.3.5.7:61546,10.48.242.2,,929084,20285336,Tue Oct 16 15:32:00 2018,1539703920,person1@company.org,3646,0
+        CLIENT_LIST,person2@company.org,2.4.6.8:42707,10.48.242.4,,2077224,1734473,Tue Oct 16 16:52:22 2018,1539708742,person2@company.org,3660,0
+        CLIENT_LIST,UNDEF,44.55.66.77:64912,,,0,0,Tue Oct 16 17:44:05 2018,1539711845,UNDEF,3665,0
+        CLIENT_LIST,person3@company.org,12.34.56.79:19567,10.48.242.5,,1484054,29953450,Tue Oct 16 16:44:06 2018,1539708246,person3@company.org,3656,0
+        HEADER,ROUTING_TABLE,Virtual Address,Common Name,Real Address,Last Ref,Last Ref (time_t)
+        ROUTING_TABLE,10.48.242.5,person3@company.org,12.34.56.79:19567,Tue Oct 16 17:44:19 2018,1539711859
+        ROUTING_TABLE,10.48.242.4,person2@company.org,2.4.6.8:42707,Tue Oct 16 17:44:26 2018,1539711866
+        ROUTING_TABLE,10.48.242.2,person1@company.org,1.3.5.7:61546,Tue Oct 16 17:44:25 2018,1539711865
+        GLOBAL_STATS,Max bcast/mcast queue length,0
+        END
+        ''')
+
+    status = {1: status_1, 2: status_2, 3: status_3, 'kiddie': status_kiddie, }
     good_kill = "SUCCESS: common name 'person1@company.com' found, 1 client(s) killed"
     bad_kill = "ERROR: common name 'sadf' not found"
 
