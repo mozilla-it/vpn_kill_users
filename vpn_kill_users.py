@@ -146,15 +146,23 @@ class VPNmgmt(object):
             users[matchset[0]] = matchset
         return users
 
-    def kill(self, user):
+    def kill(self, user, commit=False):
         """
             Disconnect a single user.  Does not check
             if they were there or not.
             Returns True/False depending on if the server
             reports a success or not.
         """
-        ret = self._send('kill '+user, stopon='\r\n')
-        return (self._success(ret), ret)
+        if commit:
+            ret = self._send('kill '+user, stopon='\r\n')
+            return (self._success(ret), ret)
+        else:
+            # Send something useless, just to make testing
+            # behave a bit more like real life.
+            # Small bonus here, if we're disconnected, we will
+            # get back a fail for testing.
+            ret = self._send('version')
+            return (self._success(ret), ret)
 
 
 class VPNkiller(object):
@@ -216,15 +224,15 @@ class VPNkiller(object):
                 del users_we_plan_to_disconnect[user]
         return users_we_plan_to_disconnect
 
-    def disconnect_user(self, user_ref):
+    def disconnect_user(self, user_ref, commit=False):
         """
             log that we're going to disconnect someone, and then do so
         """
         user = user_ref[0]
         src_ip = user_ref[1].split(':')[0]
-        msg = "{user} not in the list of active LDAP users - disconnecting"
-        print("disconnecting from VPN: {user}".format(user=user))
-        kill_tuple = self.vpn.kill(user)
+        msg = "disconnecting from VPN: {user} / {ip}"
+        print(msg.format(user=user, ip=src_ip))
+        kill_tuple = self.vpn.kill(user, commit=commit)
         return kill_tuple[0]
 
 
@@ -248,12 +256,8 @@ def main():
 
     users_to_disconnect = killer_object.get_users_to_disconnect()
 
-    for user_ref in users_to_disconnect:
-        if args.noop:
-            print("would disconnect from VPN: {user}".format(
-                user=user_ref[0]))
-        else:
-            killer_object.disconnect_user(user_ref)
+    for _user, user_ref in users_to_disconnect:
+        killer_object.disconnect_user(user_ref, commit=not args.noop)
 
     killer_object.vpn_disconnect()
 
