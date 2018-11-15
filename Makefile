@@ -1,11 +1,15 @@
 PACKAGE := vpn_kill_users
 .DEFAULT: test
-.PHONY: clean all test pep8 pylint
+.PHONY: all test coverage pep8 pylint rpm clean
+TEST_FLAGS_FOR_SUITE := -m unittest discover -f -s test
 
 all: test
 
 test:
-	python -B -m unittest discover -f -s test
+	python -B $(TEST_FLAGS_FOR_SUITE)
+
+coverage:
+	coverage run $(TEST_FLAGS_FOR_SUITE)
 
 pep8:
 	@find ./* `git submodule --quiet foreach 'echo -n "-path ./$$path -prune -o "'` -type f -name '*.py' -exec pep8 {} \;
