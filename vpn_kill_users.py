@@ -265,7 +265,7 @@ def main():
 
     users_to_disconnect = killer_object.get_users_to_disconnect()
 
-    for _user, user_ref in users_to_disconnect:
+    for _user, user_ref in users_to_disconnect.items():
         killer_object.disconnect_user(user_ref, commit=not args.noop)
 
     killer_object.vpn_disconnect()
