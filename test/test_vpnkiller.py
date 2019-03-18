@@ -16,12 +16,15 @@
 
 import unittest
 import sys
-from test.fakeserver import FakeServer
 from mock import patch
-
 sys.path.insert(1, 'iamvpnlibrary')
 import iamvpnlibrary  # pylint: disable=wrong-import-position
+sys.path.insert(1, 'openvpn-management')
+import openvpn_management  # pylint: disable=wrong-import-position
 import vpn_kill_users  # pylint: disable=wrong-import-position
+sys.path.insert(1, 'openvpn-management/test')
+# Note that we're importing the fakeserver from our upstream module:
+from fakeserver import FakeServer  # pylint: disable=wrong-import-position
 sys.dont_write_bytecode = True
 
 
@@ -59,7 +62,7 @@ class TestVPNKill(unittest.TestCase):
                               'VPN killer vpn_socket was not a string')
         self.assertIsInstance(self.library.iam, iamvpnlibrary.IAMVPNLibrary,
                               'VPN killer iam was not an IAM library')
-        self.assertIsInstance(self.library.vpn, vpn_kill_users.VPNmgmt,
+        self.assertIsInstance(self.library.vpn, openvpn_management.VPNmgmt,
                               'VPN killer vpn was not a VPNmgmt library')
 
     def test_01_badsetup(self):

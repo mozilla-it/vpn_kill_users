@@ -45,6 +45,6 @@ setup(
                  'This package is built upon commit ' + git_version()),
     long_description=open('README.md').read(),
     license="MPL",
-    install_requires=['iamvpnlibrary>=0.8.5'],
+    install_requires=['iamvpnlibrary>=0.8.5', 'openvpn-management'],
     scripts=[NAME+'.py'],
 )
