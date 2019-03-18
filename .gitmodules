@@ -1,3 +1,6 @@
 [submodule "iamvpnlibrary"]
 	path = iamvpnlibrary
 	url = https://github.com/mozilla-it/iamvpnlibrary.git
+[submodule "openvpn-management"]
+	path = openvpn-management
+	url = https://github.com/mozilla-it/openvpn-management.git
