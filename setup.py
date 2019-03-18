@@ -36,7 +36,7 @@ NAME = 'vpn_kill_users'
 
 setup(
     name='vpn-kill-users',
-    version='1.0.2',
+    version='1.0.3',
     author='Greg Cox',
     author_email='gcox@mozilla.com',
     url='https://github.com/mozilla-it/vpn_kill_users',
