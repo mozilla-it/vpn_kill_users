@@ -117,7 +117,15 @@ def main():
                         help='VPN management socket to connect to.')
     args = parser.parse_args()
 
-    killer_object = VPNkiller(args.vpn_socket)
+    try:
+        killer_object = VPNkiller(args.vpn_socket)
+    except Exception as objerr:  # pylint: disable=broad-except
+        # We can throw any number of exceptions during the create process.
+        # Notably, if the VPN goes isolated and can't talk to IAM.
+        # So, we deliberately catch all error types, because creating
+        # the list would make this complex, for no benefit.
+        print('Unable to create VPNkiller object: {}'.format(objerr.message))
+        sys.exit(1)
 
     if not killer_object.vpn_connect():
         print('Unable to connect to {sock}'.format(sock=args.vpn_socket))
