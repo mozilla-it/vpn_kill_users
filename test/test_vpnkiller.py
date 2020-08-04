@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -10,22 +9,16 @@
 """
    script testing script
 """
-# This test file calls protected methods on the script classes
-# file, so, we tell pylint that we're cool with it globally:
-# pylint: disable=protected-access
-
 import unittest
 import sys
-from mock import patch
-sys.path.insert(1, 'iamvpnlibrary')
-import iamvpnlibrary  # pylint: disable=wrong-import-position
-sys.path.insert(1, 'openvpn-management')
-import openvpn_management  # pylint: disable=wrong-import-position
-import vpn_kill_users  # pylint: disable=wrong-import-position
+import mock
+import test.context  # pylint: disable=unused-import
+import iamvpnlibrary
+import openvpn_management
+import vpn_kill_users
 sys.path.insert(1, 'openvpn-management/test')
 # Note that we're importing the fakeserver from our upstream module:
 from fakeserver import FakeServer  # pylint: disable=wrong-import-position
-sys.dont_write_bytecode = True
 
 
 UNIX_SOCKET_FILENAME = '/tmp/good-test-path'
@@ -191,7 +184,7 @@ class TestVPNKill(unittest.TestCase):
             target=self.server.server_status_and_good_kill)
         self.library.vpn_connect()
         users = self.library.get_users_to_disconnect()
-        with patch('sys.stdout', new=DevNull()):
+        with mock.patch('sys.stdout', new=DevNull()):
             killtest = self.library.disconnect_user(users.keys()[0])
         self.assertIsInstance(killtest, bool,
                               'kill return must be a bool')
