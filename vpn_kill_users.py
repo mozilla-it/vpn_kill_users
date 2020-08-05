@@ -105,7 +105,7 @@ class VPNkiller(object):
         return kill_tuple[0]
 
 
-def main():
+def main(argv):
     """
         The primary function, which does obviously trivial work.
     """
@@ -115,7 +115,7 @@ def main():
                         dest='noop', default=False)
     parser.add_argument('vpn_socket', type=str,
                         help='VPN management socket to connect to.')
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
 
     try:
         killer_object = VPNkiller(args.vpn_socket)
@@ -140,4 +140,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:])  # pragma: no cover
