@@ -124,7 +124,7 @@ def main(argv):
         # Notably, if the VPN goes isolated and can't talk to IAM.
         # So, we deliberately catch all error types, because creating
         # the list would make this complex, for no benefit.
-        print('Unable to create VPNkiller object: {}'.format(objerr.message))
+        print('Unable to create VPNkiller object: {}'.format(str(objerr)))
         sys.exit(1)
 
     if not killer_object.vpn_connect():
