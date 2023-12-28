@@ -14,7 +14,6 @@ import sys
 import socket
 import test.context  # pylint: disable=unused-import
 import mock
-import six
 from iamvpnlibrary import IAMVPNLibrary
 from openvpn_management import VPNmgmt
 from vpn_kill_users import VPNkiller, main
@@ -42,7 +41,7 @@ class TestVPNKiller(unittest.TestCase):
         """ Verify that the self object was initialized """
         self.assertIsInstance(self.library, VPNkiller,
                               'VPN killer is not a proper object')
-        self.assertIsInstance(self.library.vpn_socket, six.string_types,
+        self.assertIsInstance(self.library.vpn_socket, str,
                               'VPN killer vpn_socket was not a string')
         self.assertIsInstance(self.library.iam, IAMVPNLibrary,
                               'VPN killer iam was not an IAM library')
