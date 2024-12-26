@@ -29,12 +29,12 @@
 import socket
 import sys
 from argparse import ArgumentParser
-import iamvpnlibrary
 import openvpn_management
+import iamvpnlibrary
 sys.dont_write_bytecode = True
 
 
-class VPNkiller(object):
+class VPNkiller:
     """
         This class is pretty much the overarching logic of this task.
         It's really only a class in order to be testable.
@@ -124,11 +124,11 @@ def main(argv):
         # Notably, if the VPN goes isolated and can't talk to IAM.
         # So, we deliberately catch all error types, because creating
         # the list would make this complex, for no benefit.
-        print('Unable to create VPNkiller object: {}'.format(str(objerr)))
+        print(f'Unable to create VPNkiller object: {str(objerr)}')
         sys.exit(1)
 
     if not killer_object.vpn_connect():
-        print('Unable to connect to {sock}'.format(sock=args.vpn_socket))
+        print(f'Unable to connect to {args.vpn_socket}')
         sys.exit(1)
 
     users_to_disconnect = killer_object.get_users_to_disconnect()

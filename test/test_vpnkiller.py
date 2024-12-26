@@ -23,7 +23,7 @@ else:
     from io import BytesIO as StringIO  # pragma: no cover
 
 
-UNIX_SOCKET_FILENAME = '/tmp/good-test-path'
+UNIX_SOCKET_FILENAME = '/tmp/good-test-path'  # nosec hardcoded_tmp_directory
 
 
 class TestVPNKiller(unittest.TestCase):
